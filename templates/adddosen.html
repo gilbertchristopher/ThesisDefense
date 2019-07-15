@@ -1,0 +1,139 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="content-section">
+    <form method="POST" action="">
+        {{ form.hidden_tag() }}
+        <fieldset class="form-group">
+            {% if lecturer_id = null %}
+                <legend class="border-bottom mb-4">Tambah Dosen</legend>
+            {% else %}
+                <legend class="border-bottom mb-4">Tambah Dosen</legend>
+            {% endif %}
+            <div class="form-group">
+                {{ form.lecturer_name.label(class="form-control-label") }}
+                {% if form.lecturer_name.errors %}
+                {{ form.lecturer_name(class="form-control form-control-lg is-invalid") }}
+                <div class="invalid-feedback">
+                    {% for error in form.lecturer_name.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% else %}
+                {{ form.lecturer_name(class="form-control form-control-lg") }}
+                {% endif %}
+            </div>
+            <div class="form-group">
+                {{ form.jja.label(class="form-control-label") }}
+                {% if form.jja.errors %}
+                {{ form.jja(class="form-control form-control-lg is-invalid") }}
+                <div class="invalid-feedback">
+                    {% for error in form.jja.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% else %}
+                {{ form.jja(class="form-control form-control-lg") }}
+                {% endif %}
+            </div>
+            <div class="form-group">
+                {{ form.code1.label(class="form-control-label") }}
+                {% if form.code1.errors %}
+                {{ form.code1(class="form-control form-control-lg is-invalid") }}
+                <div class="invalid-feedback">
+                    {% for error in form.code1.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% else %}
+                {{ form.code1(class="form-control form-control-lg") }}
+                {% endif %}
+            </div>
+            <div class="form-group">
+                {{ form.code2.label(class="form-control-label") }}
+                {% if form.code2.errors %}
+                {{ form.code2(class="form-control form-control-lg is-invalid") }}
+                <div class="invalid-feedback">
+                    {% for error in form.code2.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% else %}
+                {{ form.code2(class="form-control form-control-lg") }}
+                {% endif %}
+            </div>
+            <div class="form-group">
+                {{ form.code3.label(class="form-control-label") }}
+                {% if form.code3.errors %}
+                {{ form.code3(class="form-control form-control-lg is-invalid") }}
+                <div class="invalid-feedback">
+                    {% for error in form.code3.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% else %}
+                {{ form.code3(class="form-control form-control-lg") }}
+                {% endif %}
+            </div>
+            <div class="form-group">
+                {{ form.code4.label(class="form-control-label") }}
+                {% if form.code4.errors %}
+                {{ form.code4(class="form-control form-control-lg is-invalid") }}
+                <div class="invalid-feedback">
+                    {% for error in form.code4.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% else %}
+                {{ form.code4(class="form-control form-control-lg") }}
+                {% endif %}
+            </div>
+            <div class="form-group">
+                {{ form.code5.label(class="form-control-label") }}
+                {% if form.code5.errors %}
+                {{ form.code5(class="form-control form-control-lg is-invalid") }}
+                <div class="invalid-feedback">
+                    {% for error in form.code5.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% else %}
+                {{ form.code5(class="form-control form-control-lg") }}
+                {% endif %}
+            </div>
+            <div class="form-group">
+                {{ form.experience.label(class="form-control-label") }}
+                {% if form.experience.errors %}
+                {{ form.experience(class="form-control form-control-lg is-invalid") }}
+                <div class="invalid-feedback">
+                    {% for error in form.experience.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% else %}
+                {{ form.experience(class="form-control form-control-lg") }}
+                {% endif %}
+            </div>
+            <div class="form-group">
+                {{ form.isPejabat.label(class="form-control-label") }}
+                {% if form.isPejabat.errors %}
+                {{ form.isPejabat(class="form-control form-control-lg is-invalid") }}
+                <div class="invalid-feedback">
+                    {% for error in form.isPejabat.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% else %}
+                {{ form.isPejabat(class="form-control form-control-lg") }}
+                {% endif %}
+            </div>
+        </fieldset>
+        <div class="form-group">
+            {% if lecturer_id == null %}
+                {{ form.submit1(class="btn btn-outline-info") }}
+            {% else %}
+                {{ form.submit2(class="btn btn-outline-info") }}
+            {% endif %}
+        </div>
+    </form>
+</div>
+{% endblock content %}

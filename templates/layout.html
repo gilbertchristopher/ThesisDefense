@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
+          integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/buttons/1.5.6/css/buttons.dataTables.min.css" rel="stylesheet">
+    {% if title %}
+    <title>Penjadwalan Sidang Skripsi - {{ title }}</title>
+    {% else %}
+    <title>Penjadwalan Sidang Skripsi</title>
+    {% endif %}
+</head>
+<body>
+<header class="site-header"  style="margin-bottom: 25px;">
+    <nav class="navbar navbar-expand-md navbar-dark bg-steel navbar-fixed-top">
+        <div class="container">
+            <a class="navbar-brand mr-4" href="/">Penjadwalan Sidang Skripsi</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle"
+                    aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarToggle">
+                <div class="navbar-nav mr-auto">
+                    <a class="nav-item nav-link" href="/student">Mahasiswa</a>
+                    <a class="nav-item nav-link" href="/lecturer">Dosen</a>
+                </div>
+                <!--Navbar Right Side -->
+                <div class="navbar-nav">
+                    <a class="nav-item nav-link" href="/schedule">Buat Jadwal</a>
+                    <a class="nav-item nav-link" href="/schedule/view">Lihat Jadwal</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>
+<main role="main" class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+            {% for category, message in messages %}
+            <div class="alert alert-{{ category }}">
+                {{ message }}
+            </div>
+            {% endfor %}
+            {% endif %}
+            {% endwith %}
+            {% block content %}{% endblock %}
+        </div>
+    </div>
+</main>
+
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.5.6/js/dataTables.buttons.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.html5.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.print.min.js"></script>
+
+</body>
+<script>
+    $(document).ready(function() {
+        $('#example').DataTable({
+            'dom': 'Bfrtip',
+            buttons: [
+                'copy', 'csv', 'excel', 'pdf', 'print'
+            ]
+        });
+    } );
+
+    $(document).ready(function() {
+        $('#example2').DataTable();
+    } );
+
+    $(document).ready(function() {
+        $('#jadwal').DataTable( {
+            'paging' : false,
+            'dom': 'Bfrtip',
+            buttons: [
+                'copy', 'csv', 'excel', 'pdf', 'print'
+            ]
+        } );
+    } );
+
+    $(document).ready(function() {
+        $('#jadwal2').DataTable();
+    } );
+
+// Add the following code if you want the name of the file appear on select
+$(".custom-file-input").on("change", function() {
+  var fileName = $(this).val().split("\\").pop();
+  $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+});
+
+$('#trigger').on('click',function(e){
+    e.preventDefault();
+    $('#registration').modal("show"); // open the modal
+    $('#submit-button').submit();
+});
+
+document.addEventListener("DOMContentLoaded", function(event) {
+  //Removing article link when on mobiforge
+  console.log(document.referrer);
+  if (parent !== window && document.referrer.indexOf('https://mobiforge.com') === 0 && document.referrer.indexOf('http://mobiforge.com') === 0)
+  {
+    console.log(document.referrer);
+    document.getElementById('article-link').className = "fade-out";
+  }
+
+});
+
+$(document).on("click", ".deleteMhs", function () {
+     var thesis_id = $(this).data('id');
+     $(".modal-footer #thesis-id").val( thesis_id );
+});
+
+$(document).on("click", ".deleteJdw", function () {
+     var schedule_id = $(this).data('id');
+     var lect_id = $('.lecturer p').text()
+     $(".modal-footer #schedule-id").val( schedule_id );
+     $(".modal-footer #lect-id").val( lect_id );
+});
+
+$(document).on("click", ".deleteLec", function () {
+     var lect_id = $(this).data('id');
+     $(".modal-footer #lect-id2").val( lect_id );
+});
+
+$('.tablerow').each(function (i) {
+   $("td:first", this).html(i+1);
+});
+
+</script>
+<style>
+    table.dataTable thead .sorting:after,
+table.dataTable thead .sorting:before,
+table.dataTable thead .sorting_asc:after,
+table.dataTable thead .sorting_asc:before,
+table.dataTable thead .sorting_asc_disabled:after,
+table.dataTable thead .sorting_asc_disabled:before,
+table.dataTable thead .sorting_desc:after,
+table.dataTable thead .sorting_desc:before,
+table.dataTable thead .sorting_desc_disabled:after,
+table.dataTable thead .sorting_desc_disabled:before {
+bottom: .5em;
+}
+
+body{
+    background-color: #f2f2f2;
+}
+
+#svg-spinner{
+  -webkit-transition-property: -webkit-transform;
+  -webkit-transition-duration: 1.2s;
+  -webkit-animation-name: rotate;
+  -webkit-animation-iteration-count: infinite;
+  -webkit-animation-timing-function: linear;
+
+  -moz-transition-property: -moz-transform;
+  -moz-animation-name: rotate;
+  -moz-animation-duration: 1.2s;
+  -moz-animation-iteration-count: infinite;
+  -moz-animation-timing-function: linear;
+
+  transition-property: transform;
+  animation-name: rotate;
+  animation-duration: 1.2s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+
+@-webkit-keyframes rotate {
+    from {-webkit-transform: rotate(0deg);}
+    to {-webkit-transform: rotate(360deg);}
+}
+
+@-moz-keyframes rotate {
+    from {-moz-transform: rotate(0deg);}
+    to {-moz-transform: rotate(360deg);}
+}
+
+@keyframes rotate {
+    from {transform: rotate(0deg);}
+    to {transform: rotate(360deg);}
+}
+
+#svg-spinner{
+  position:absolute;
+  top:80px;
+  margin-left:-24px;
+}
+
+#html-spinner{
+  left:25%;
+}
+
+#svg-spinner{
+  left:50%;
+}
+
+#html-para, #svg-para{
+  position:absolute;
+  top:100px;
+  width:40%;
+  padding:5%;
+  text-align:center;
+}
+
+#svg-para{
+  margin-top: 20px;
+  left:30%;
+}
+</style>
+</html>

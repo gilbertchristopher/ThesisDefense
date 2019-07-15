@@ -1,0 +1,148 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="content-section">
+    <div class="row">
+        <div class="col-lg-6">
+            {% if batch %}
+                <legend>Jadwal Sidang Skripsi Batch {{ batch }}</legend>
+            {% else %}
+                <legend>Jadwal Sidang Skripsi</legend>
+            {% endif %}
+            <!--<legend>Jadwal Sidang Skripsi Batch {{ batch }}</legend>-->
+        </div>
+        <div class="col-lg-6">
+            <button onclick="exportTableToExcel('jadwal')" class="btn btn-outline-info" style="float: right;">
+                Save to Excel
+            </button>
+        </div>
+    </div>
+    <hr/>
+    <table cellspacing="0" class="table table-hover table-striped" style="width:100%" id="jadwal">
+        <thead>
+        <tr>
+            <th>No.</th>
+            <th>NIM</th>
+            <th>Nama Mahasiswa</th>
+            <th>Judul Skripsi</th>
+            <th>Pembimbing 1</th>
+            <th>Pembimbing 2</th>
+            <th>Penguji</th>
+            <th>Ketua Sidang</th>
+            <th>Hari</th>
+            <th>Jam</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for siswa in mahasiswa %}
+        <tr class="tablerow">
+            <td></td>
+            <td>{{ siswa.student_id }}</td>
+            <td>{{ siswa.student_name }}</td>
+            <td>{{ siswa.title }}</td>
+            <td>{{ siswa.dospem1 }}</td>
+            {% if siswa.dospem2 == "Not Available" %}
+            <td>-</td>
+            {% else %}
+            <td>{{ siswa.dospem2 }}</td>
+            {% endif %}
+            <td>{{ siswa.penguji }}</td>
+            <td>{{ siswa.ketua }}</td>
+            {% if 0 <= siswa.schedule <= 3 or 20 <= siswa.schedule <= 23 %}
+            {% if 0 <= siswa.schedule <= 3 %}
+            <td>Senin Pertama</td>
+            {% endif %}
+            {% if 20 <= siswa.schedule <= 23 %}
+            <td>Senin Kedua</td>
+            {% endif %}
+            {% endif %}
+            {% if 4 <= siswa.schedule <= 7 or 24 <= siswa.schedule <= 27 %}
+            {% if 4 <= siswa.schedule <= 7 %}
+            <td>Selasa Pertama</td>
+            {% endif %}
+            {% if 24 <= siswa.schedule <= 27 %}
+            <td>Selasa Kedua</td>
+            {% endif %}
+            {% endif %}
+            {% if 8 <= siswa.schedule <= 11 or 28 <= siswa.schedule <= 31 %}
+            {% if 8 <= siswa.schedule <= 11 %}
+            <td>Rabu Pertama</td>
+            {% endif %}
+            {% if 28 <= siswa.schedule <= 31 %}
+            <td>Rabu Kedua</td>
+            {% endif %}
+            {% endif %}
+            {% if 12 <= siswa.schedule <= 15 or 32 <= siswa.schedule <= 35 %}
+            {% if 12 <= siswa.schedule <= 15 %}
+            <td>Kamis Pertama</td>
+            {% endif %}
+            {% if 32 <= siswa.schedule <= 35 %}
+            <td>Kamis Kedua</td>
+            {% endif %}
+            {% endif %}
+            {% if 16 <= siswa.schedule <= 19 or 36 <= siswa.schedule <= 39 %}
+            {% if 16 <= siswa.schedule <= 19 %}
+            <td>Jumat Pertama</td>
+            {% endif %}
+            {% if 36 <= siswa.schedule <= 39 %}
+            <td>Jumat Kedua</td>
+            {% endif %}
+            {% endif %}
+            {% if siswa.schedule == 0 or siswa.schedule == 4 or siswa.schedule == 8 or siswa.schedule == 12 or
+            siswa.schedule == 16 or siswa.schedule == 20 or siswa.schedule == 24 or siswa.schedule == 28 or
+            siswa.schedule == 32 or siswa.schedule == 36 %}
+            <td>08:00 - 10:00</td>
+            {% endif %}
+            {% if siswa.schedule == 1 or siswa.schedule == 5 or siswa.schedule == 9 or siswa.schedule == 13 or
+            siswa.schedule == 17 or siswa.schedule == 21 or siswa.schedule == 25 or siswa.schedule == 29 or
+            siswa.schedule == 33 or siswa.schedule == 37 %}
+            <td>10:00 - 12:00</td>
+            {% endif %}
+            {% if siswa.schedule == 2 or siswa.schedule == 6 or siswa.schedule == 10 or siswa.schedule == 14 or
+            siswa.schedule == 18 or siswa.schedule == 22 or siswa.schedule == 26 or siswa.schedule == 30 or
+            siswa.schedule == 34 or siswa.schedule == 38 %}
+            <td>13:00 - 15:00</td>
+            {% endif %}
+            {% if siswa.schedule == 3 or siswa.schedule == 7 or siswa.schedule == 11 or siswa.schedule == 15 or
+            siswa.schedule == 19 or siswa.schedule == 23 or siswa.schedule == 27 or siswa.schedule == 31 or
+            siswa.schedule == 35 or siswa.schedule == 39 %}
+            <td>15:00 - 17:00</td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+<script>
+    function exportTableToExcel(tableID, filename = 'jadwal_sidang_skripsi'){
+    var downloadLink;
+    var dataType = 'application/vnd.ms-excel';
+    var tableSelect = document.getElementById(tableID);
+    var tableHTML = tableSelect.outerHTML.replace(/ /g, '%20');
+
+    // Specify file name
+    filename = filename?filename+'.xls':'excel_data.xls';
+
+    // Create download link element
+    downloadLink = document.createElement("a");
+
+    document.body.appendChild(downloadLink);
+
+    if(navigator.msSaveOrOpenBlob){
+        var blob = new Blob(['\ufeff', tableHTML], {
+            type: dataType
+        });
+        navigator.msSaveOrOpenBlob( blob, filename);
+    }else{
+        // Create a link to the file
+        downloadLink.href = 'data:' + dataType + ', ' + tableHTML;
+
+        // Setting the file name
+        downloadLink.download = filename;
+
+        //triggering the function
+        downloadLink.click();
+    }
+}
+
+</script>
+{% endblock content %}

@@ -1,0 +1,100 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="content-section">
+    <div class="row">
+        <div class="col-lg-6 lecturer">
+            <legend>{{ selected.lecturer_name }}</legend>
+            <p>{{ selected.lecturer_id }}</p>
+        </div>
+        <div class="col-lg-6">
+            <a href="{{url_for('addjadwal', lecturer_id = selected.lecturer_id)}}"
+               style="float: right; margin-top: 30px;">
+                <input type="button" value="Tambah Jadwal" class="btn btn-outline-info"/>
+            </a>
+        </div>
+
+
+
+    </div>
+
+
+    <table id="jadwal2" cellspacing="0" class="table table-hover table-striped" style="width:100%">
+        <thead>
+        <tr>
+            <th>No.</th>
+            <th>Day</th>
+            <th>Period</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for jad in jadwal %}
+        <tr class="tablerow">
+            <td></td>
+            {% if jad.period >= 0 and jad.period <= 3 %}
+            <td>Senin</td>
+            {% endif %}
+            {% if jad.period >= 4 and jad.period <= 7 %}
+            <td>Selasa</td>
+            {% endif %}
+            {% if jad.period >= 8 and jad.period <= 11 %}
+            <td>Rabu</td>
+            {% endif %}
+            {% if jad.period >= 12 and jad.period <= 15 %}
+            <td>Kamis</td>
+            {% endif %}
+            {% if jad.period >= 16 and jad.period <= 19 %}
+            <td>Jumat</td>
+            {% endif %}
+
+
+            {% if jad.period == 0 or jad.period == 4 or jad.period == 8 or jad.period == 12 or jad.period == 16 %}
+            <td>08:00 - 10:00</td>
+            {% endif %}
+            {% if jad.period == 1 or jad.period == 5 or jad.period == 9 or jad.period == 13 or jad.period == 17 %}
+            <td>10:00 - 12:00</td>
+            {% endif %}
+            {% if jad.period == 2 or jad.period == 6 or jad.period == 10 or jad.period == 14 or jad.period == 18 %}
+            <td>13:00 - 15:00</td>
+            {% endif %}
+            {% if jad.period == 3 or jad.period == 7 or jad.period == 11 or jad.period == 15 or jad.period == 19 %}
+            <td>15:00 - 17:00</td>
+            {% endif %}
+            <td><a data-toggle="modal"
+                   data-id="{{ jad.id }}" class="btn btn-danger deleteJdw"
+                   href="#deleteModal">
+                    Delete
+                </a></td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+</div>
+
+<!-- Modal -->
+  <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="deleteModalLabel">Hapus Jadwal?</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+
+        </div>
+          <div class="modal-body">
+              <p>Apakah Anda yakin ingin menghapus jadwal dosen tersebut?</p>
+          </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <form method="POST" action="{{url_for('deletejadwal')}}">
+                <input type="hidden" name="schedule-id" id="schedule-id" value=""/>
+                <input type="hidden" name="lect-id" id="lect-id" value=""/>
+              <button class="btn btn-danger" type="submit">Delete</button>
+            </form>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}

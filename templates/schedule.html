@@ -1,0 +1,77 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="content-section">
+    <form method="POST" action="" id="submit-button">
+        {{ form.hidden_tag() }}
+        <fieldset class="form-group">
+            <legend class="border-bottom mb-4">Buat Jadwal</legend>
+            <div class="form-group">
+                {{ form.batch.label(class="form-control-label") }}
+                {% if form.batch.errors %}
+                {{ form.batch(class="form-control form-control-lg is-invalid") }}
+                <div class="invalid-feedback">
+                    {% for error in form.batch.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% else %}
+                {{ form.batch(class="form-control form-control-lg") }}
+                {% endif %}
+            </div>
+            <div class="form-group">
+                {{ form.maxPejabat.label(class="form-control-label") }}
+                {% if form.maxPejabat.errors %}
+                {{ form.maxPejabat(class="form-control form-control-lg is-invalid") }}
+                <div class="invalid-feedback">
+                    {% for error in form.maxPejabat.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% else %}
+                {{ form.maxPejabat(class="form-control form-control-lg") }}
+                {% endif %}
+            </div>
+            <div class="form-group">
+                {{ form.maxNonPejabat.label(class="form-control-label") }}
+                {% if form.maxNonPejabat.errors %}
+                {{ form.maxNonPejabat(class="form-control form-control-lg is-invalid") }}
+                <div class="invalid-feedback">
+                    {% for error in form.maxNonPejabat.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% else %}
+                {{ form.maxNonPejabat(class="form-control form-control-lg") }}
+                {% endif %}
+            </div>
+        </fieldset>
+
+    </form>
+    <div class="form-group">
+        <button class="btn btn-outline-info" id="trigger">Buat Jadwal</button>
+    </div>
+</div>
+
+<div class="modal fade" id="registration" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body" style="padding-bottom: 150px;">
+                <h4 class="modal-title" style="margin-left: 25%;">Sedang Menjadwalkan</h4>
+                <svg id="svg-spinner" xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48">
+                    <circle cx="24" cy="4" r="4" fill="#7AD7F0"/>
+                    <circle cx="12.19" cy="7.86" r="3.7" fill="#7AD7F0"/>
+                    <circle cx="5.02" cy="17.68" r="3.4" fill="#92DFF3"/>
+                    <circle cx="5.02" cy="30.32" r="3.1" fill="#92DFF3"/>
+                    <circle cx="12.19" cy="40.14" r="2.8" fill="#B7E9F7"/>
+                    <circle cx="24" cy="44" r="2.5" fill="#B7E9F7"/>
+                    <circle cx="35.81" cy="40.14" r="2.2" fill="#DBF3FA"/>
+                    <circle cx="42.98" cy="30.32" r="1.9" fill="#DBF3FA"/>
+                    <circle cx="42.98" cy="17.68" r="1.6" fill="#F5FCFF"/>
+                    <circle cx="35.81" cy="7.86" r="1.3" fill="#F5FCFF"/>
+                </svg>
+                <p id="svg-para">Mohon menunggu...</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

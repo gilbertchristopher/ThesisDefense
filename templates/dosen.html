@@ -1,0 +1,135 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="content-section">
+    <div class="row">
+        <div class="col-lg-6">
+            <legend>Daftar Dosen</legend>
+        </div>
+        <div class="col-lg-6">
+            <a href="/lecturer/new" style="float: right;">
+                <input type="button" value="Tambah Dosen" class="btn btn-outline-info"/>
+            </a>
+        </div>
+    </div>
+    <hr/>
+    <table id="example2" cellspacing="0" class="table table-hover table-striped" style="width:100%">
+        <thead>
+        <tr>
+            <th>No.</th>
+            <th scope="col">Nama Dosen</th>
+            <th scope="col">JJA</th>
+            <th scope="col" colspan="5">Kode Area Penelitian</th>
+            <th scope="col" style="width: 10%;">Pengalaman Ketua</th>
+            <th scope="col">Pejabat</th>
+            <th scope="col" style="width: 22%;">Action</th>
+
+        </tr>
+            </thead>
+        <tbody>
+        {% for guru in dosen %}
+        <tr class="tablerow">
+            <td></td>
+            <td>{{ guru.lecturer_name }}</td>
+            {% if guru.jja == "0" %}
+            <td>N/A</td>
+            {% endif %}
+            {% if guru.jja == "1" %}
+            <td>Tenaga Pengajar</td>
+            {% endif %}
+            {% if guru.jja == "2" %}
+            <td>Asisten Ahli</td>
+            {% endif %}
+            {% if guru.jja == "3" %}
+            <td>Lektor</td>
+            {% endif %}
+            {% if guru.jja == "4" %}
+            <td>Lektor Kepala</td>
+            {% endif %}
+            {% if guru.jja == "5" %}
+            <td>Guru Besar</td>
+            {% endif %}
+
+            {% if guru.code1 == "N/A" %}
+            <td>-</td>
+            {% else %}
+            <td>{{ guru.code1 }}</td>
+            {% endif %}
+            {% if guru.code2 == "N/A" %}
+            <td>-</td>
+            {% else %}
+            <td>{{ guru.code2 }}</td>
+            {% endif %}
+            {% if guru.code3 == "N/A" %}
+            <td>-</td>
+            {% else %}
+            <td>{{ guru.code3 }}</td>
+            {% endif %}
+            {% if guru.code4 == "N/A" %}
+            <td>-</td>
+            {% else %}
+            <td>{{ guru.code4 }}</td>
+            {% endif %}
+            {% if guru.code5 == "N/A" %}
+            <td>-</td>
+            {% else %}
+            <td>{{ guru.code5 }}</td>
+            {% endif %}
+
+            {% if guru.experience == 1 %}
+            <td>True</td>
+            {% else %}
+            <td>False</td>
+            {% endif %}
+
+            {% if guru.isPejabat == 1 %}
+            <td>Pejabat</td>
+            {% else %}
+            <td>Non-Pejabat</td>
+            {% endif %}
+            <td>
+                <input type="button" value="Jadwal" class="btn btn-primary"
+                       onclick="window.location.href='{{ url_for('jadwal', lecturer_id=guru.lecturer_id)}}'"/>
+                <input type="button" value="Edit" class="btn btn-secondary"
+                       onclick="window.location.href='{{ url_for('updatedosen', lecturer_id=guru.lecturer_id)}}'"/>
+
+                <a data-toggle="modal"
+                   data-id="{{ guru.lecturer_id }}" class="btn btn-danger deleteLec"
+                   href="#deleteModal">
+                    Delete
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <p></p>
+
+</div>
+<!-- Modal -->
+  <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="deleteModalLabel">Hapus Dosen?</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+
+        </div>
+          <div class="modal-body">
+              <p>Menghapus dosen berarti Anda akan menghapus seluruh mahasiswa bimbingan dosen tersebut beserta jadwal
+                  dosen tersebut.
+                  Apakah Anda yakin ingin menghapus dosen tersebut?</p>
+          </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <form method="POST" action="{{url_for('deletedosen')}}">
+                <input type="hidden" name="lect-id2" id="lect-id2" value=""/>
+              <button class="btn btn-danger" type="submit">Delete</button>
+            </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% endblock content %}

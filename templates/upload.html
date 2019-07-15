@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+{% block content %}
+<title>Upload Daftar Mahasiswa</title>
+<div class="content-section">
+    <form action="" method=post enctype=multipart/form-data>
+        <div class="container mt-3">
+            <h2>Upload Daftar Mahasiswa</h2>
+            <hr/>
+            <p>File yang di-upload hanya dapat berformat .csv</p>
+
+            <p>Upload:</p>
+            <div class="custom-file mb-3">
+                <input type="file" class="custom-file-input" id="customFile" name="file" accept=".csv">
+                <label class="custom-file-label" for="customFile">Pilih berkas</label>
+            </div>
+
+            <div class="mt-3">
+                <button type="submit" class="btn btn-primary">Upload</button>
+            </div>
+
+        </div>
+    </form>
+</div>
+
+{% endblock content %}
